@@ -1,0 +1,48 @@
+{{- $fullName := include "oauth2-proxy-ingress.fullname" . -}}
+{{- range $subdomain := .Values.subdomains }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ $fullName }}-{{ $subdomain }}
+  labels:
+    {{- include "oauth2-proxy-ingress.labels" $ | nindent 4 }}s
+  annotations:
+    nginx.ingress.kubernetes.io/server-snippet: |
+      if ($request_uri ~ ^/oauth2/(.*)$){
+        rewrite ^(.*)$ $1 last;
+      }
+
+      if ($request_uri ~ ^/.well-known/(.*)$){
+        rewrite ^(.*)$ $1 last;
+      }
+
+      if ($request_uri !~ ^/{{ $subdomain }}/(.*)$){
+        rewrite ^(.*)$ /{{ $subdomain }}$1 last;
+      }
+  {{- with $.Values.annotations }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  ingressClassName: {{ $.Values.ingressClassName }}
+  tls:
+  {{- if $.Values.autoCreateTls }}
+    - hosts:
+        - {{ $subdomain }}.{{ $.Values.domainBase }}
+      secretName: {{ $subdomain }}.{{ $.Values.domainBase }}-tls
+  {{- end }}
+  {{- if $.Values.tls }}
+    {{- get $.Values.tls $subdomain | toYaml | nindent 4 }}
+  {{- end }}
+  rules:
+    - host: {{ $subdomain }}.{{ $.Values.domainBase }}
+      http:
+        paths:
+          - backend:
+              service:
+                name: {{ $.Values.oauth2proxy.service.name }}
+                port:
+                  number: {{ $.Values.oauth2proxy.service.port }}
+            path: /
+            pathType: ImplementationSpecific
+---
+{{- end }}
