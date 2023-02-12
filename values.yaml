@@ -1,0 +1,38 @@
+nameOverride: ""
+fullnameOverride: ""
+
+# -- domain base all the subdomains share
+domainBase: example.com
+
+# -- list of subdomains that will be hidden behind the oauth2-proxy
+subdomains:
+  - subdomain1
+  - subdomain2
+
+ingressClassName: nginx
+
+oauth2proxy:
+  service:
+    # -- service name of the installed oauth2-proxy. ingress must be installed in the same namespace
+    name: oauth2-proxy
+    # -- port of the installed oauth2-proxy
+    port: 80
+
+# -- additional ingress annotations
+annotations: {}
+  # cert-manager.io/cluster-issuer: letsencrypt-prod
+  # kubernetes.io/tls-acme: "true"
+
+# -- this will create a default tls block for the ingress
+autoCreateTls: true
+
+# -- if needed a custom tls block for every subdomain can bet set here, see values.yaml
+tls: {}
+#  subdomain1:
+#  - hosts:
+#      - subdomain1.example.com
+#    secretName: subdomain1-custom-name.example.com-tls
+#  subdomain2:
+#  - hosts:
+#      - subdomain2.example.com
+#    secretName: subdomain2-custom-name.example.com-tls
