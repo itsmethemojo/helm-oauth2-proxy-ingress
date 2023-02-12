@@ -1,4 +1,7 @@
 apiVersion: v2
 name: oauth2-proxy-ingress
 description: helm chart to create multiple ingresses to use with a single oauth2-proxy
-version: 1.0.0
+version: 1.0.1
+icon: https://itsmethemojo.github.io/helm-charts/icon.png
+sources:
+  - https://github.com/itsmethemojo/helm-oauth2-proxy-ingress
