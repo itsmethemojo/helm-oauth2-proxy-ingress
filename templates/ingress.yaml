@@ -19,6 +19,9 @@ metadata:
       if ($request_uri !~ ^/{{ $subdomain }}/(.*)$){
         rewrite ^(.*)$ /{{ $subdomain }}$1 last;
       }
+  {{- if $.Values.externalDnsEnabled }}
+    external-dns.alpha.kubernetes.io/hostname: {{ $subdomain }}.{{ $.Values.domainBase }}.
+  {{- end }}
   {{- with $.Values.annotations }}
     {{- toYaml . | nindent 4 }}
   {{- end }}

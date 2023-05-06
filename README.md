@@ -1,6 +1,6 @@
 # oauth2-proxy-ingress
 
-![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square)
+![Version: 1.1.0](https://img.shields.io/badge/Version-1.1.0-informational?style=flat-square)
 
 helm chart to create multiple ingresses to use with a single oauth2-proxy
 
@@ -65,6 +65,10 @@ docker run --rm -v $(pwd):/app -w/app jnorwood/helm-docs -t helm-docs-template.g
 * [Dex Chart on Artifact HUB](https://artifacthub.io/packages/helm/dex/dex)
 * [Oauth2-Proxy Chart on Artifact HUB](https://artifacthub.io/packages/helm/oauth2-proxy/oauth2-proxy)
 
+## Source Code
+
+* <https://github.com/itsmethemojo/helm-oauth2-proxy-ingress>
+
 ## Values
 
 | Key | Type | Default | Description |
@@ -72,6 +76,7 @@ docker run --rm -v $(pwd):/app -w/app jnorwood/helm-docs -t helm-docs-template.g
 | annotations | object | `{}` | additional ingress annotations |
 | autoCreateTls | bool | `true` | this will create a default tls block for the ingress |
 | domainBase | string | `"example.com"` | domain base all the subdomains share |
+| externalDnsEnabled | bool | `false` | this will add the external-dns.alpha.kubernetes.io/hostname annotation |
 | fullnameOverride | string | `""` |  |
 | ingressClassName | string | `"nginx"` |  |
 | nameOverride | string | `""` |  |

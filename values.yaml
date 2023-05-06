@@ -26,6 +26,9 @@ annotations: {}
 # -- this will create a default tls block for the ingress
 autoCreateTls: true
 
+# -- this will add the external-dns.alpha.kubernetes.io/hostname annotation
+externalDnsEnabled: false
+
 # -- if needed a custom tls block for every subdomain can bet set here, see values.yaml
 tls: {}
 #  subdomain1:
